@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC
+  "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="WSDEPTOSAPPENDER" class="org.apache.log4j.DailyRollingFileAppender">
+  	<!-- !!CONFIGURAR PATH PARA GUARDAR ARCHIVOS DE LOG (CAMBIAR CON CONFIGURACIÓN LOCAL) -->
+ 	<param name="File" value="/var/lib/tomcat6/logs/application-log/deptosws.log"/>
+	<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+    	<param name="ConversionPattern" value="[%d{dd/MM/yy hh:mm:ss:sss}] %5p %c{2}: %m%n" />
+    </layout>
+  </appender>
+
+  <appender name="WSDEPTOSTRACKERAPPENDER" class="org.apache.log4j.DailyRollingFileAppender">
+    <!-- !!CONFIGURAR PATH PARA GUARDAR ARCHIVOS DE TRACKING (CAMBIAR CON CONFIGURACIÓN LOCAL) -->
+ 	<param name="File" value="/var/lib/tomcat6/logs/application-log/deptosws.track"/>
+	<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+    	<param name="ConversionPattern" value="[%d{dd/MM/yy hh:mm:ss:sss}] %5p %c{2}: %m%n" />
+    </layout>
+  </appender>
+  
+  <!--
+  <appender name="WSDEPTOSLOGSEARCH" class="org.apache.log4j.DailyRollingFileAppender">
+    !!CONFIGURAR PATH PARA GUARDAR ARCHIVOS DE LOGSEARCH (CAMBIAR CON CONFIGURACIÓN LOCAL)
+ 	<param name="File" value="/var/lib/tomcat6/logs/application-log/logsearch.txt"/>
+	<param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <layout class="org.apache.log4j.PatternLayout">
+    	<param name="ConversionPattern" value="[%d{dd/MM/yy hh:mm:ss:sss}] %5p %c{2}: %m%n" />
+    </layout>
+  </appender>
+  -->
+  
+  <appender name="console" class="org.apache.log4j.ConsoleAppender">
+    <param name="Target" value="System.out"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%-5p %c{1} - %m%n"/>
+    </layout>
+  </appender>
+  
+  <!-- !!CONFIGURACIÓN PARA ENVIAR EMAIL DE ERROR DETECTADO -->
+  <!-- <appender name="WSDEPTOSLOGEMAILAPPENDER" class="org.apache.log4j.net.SMTPAppender">
+	<param name="BufferSize" value="1024" />
+	<param name="SMTPHost" value="smtp.sendgrid.net" />
+	<param name="SMTPUsername" value="DEPTOS" />
+	<param name="SMTPPassword" value="deptos" />
+	<param name="From" value="noresponder@deptos.cl" />
+	<param name="To" value="errores_deptos@deptos.cl" />
+	<param name="Subject" value="Error en Servicio (Producción) - DEPTOS" />
+	<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern" value="[%d]%n%n%-5p%n%n%c%n%n%m%n%n" />  
+	</layout>
+	<filter class="org.apache.log4j.varia.LevelRangeFilter">
+		<param name="LevelMin" value="error" /> error: eventos de error que podrían permitir que la aplicación continúe funcionando.
+		<param name="LevelMax" value="fatal" /> fatal: eventos de error muy graves que conducen a la aplicación a abortar.
+	</filter>
+  </appender>
+  -->
+  
+  <!--
+  	<logger name="LOGEMAIL">
+	   <level value="error" />
+	   <appender-ref ref="WSDEPTOSLOGEMAILAPPENDER" />
+	</logger>
+ -->
+	
+  <!-- LOGGER DE LA APLICACION -->
+	<logger name="LOGGER">
+	   <!-- !!CAMBIAR NIVEL DE MENSAJES SEGÚN SEA NECESARIO ( PRO = error ) -->
+	   <level value="debug" />
+	   <appender-ref ref="console" />
+	</logger>
+	<logger name="TRACKER" >
+	  <!-- !!CAMBIAR NIVEL DE MENSAJES SEGÚN SEA NECESARIO ( PRO = info ) -->
+	  <level value="debug" />
+      <appender-ref ref="WSDEPTOSTRACKERAPPENDER" />
+    </logger>
+    
+    <!-- 
+    <logger name="LOGSEARCH" >
+	  !!CAMBIAR NIVEL DE MENSAJES SEGÚN SEA NECESARIO ( PRO = info )
+	  <level value="debug" />
+    </logger>
+   	 -->
+	
+	<!-- RAIZ PARA LOGEAR ERRORES DE OTRAS COMPONENTES QUE DEFINAN UN LOG -->
+	<root>
+		<priority value="error"/>
+    </root>
+</log4j:configuration>
